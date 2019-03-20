@@ -1,11 +1,11 @@
 #include <iostream>
 
-void merge(int arr[], int l, int m, int r)  {
-    int temp[r-l+1];
-    int i = l, j = m+1, k = 0;
+void merge(int arr[], int left, int mid, int right)  {
+    int temp[right-left+1];
+    int i = left, j = mid+1, k = 0;
 
     // Sorting the array
-    while(i <= m && j <= r) {
+    while(i <= mid && j <= right) {
         if (arr[i] <= arr[j])   {
             temp[k] = arr[i];
             k++, i++;
@@ -17,33 +17,41 @@ void merge(int arr[], int l, int m, int r)  {
     }
 
     // Copying over the remaining elements if any
-    while (i <= m)   {
+    while (i <= mid)   {
             temp[k] = arr[i];
             k++, i++;
         }
-    while (j <= r)   {
+    while (j <= right)   {
             temp[k] = arr[j];
             k++, j++;
         }
 
-    for(int i = l; i <= r; i++)  {
-        arr[i] = temp[i-l];
+    for(int i = left; i <= right; i++)  {
+        arr[i] = temp[i-left];
     }
 }
 
-void mergeSort(int arr[], int l, int r) {
-    if (l < r) {
-        int m = (l+r)/2;
-        mergeSort(arr, l, m);
-        mergeSort(arr, m+1, r);
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = (left+right)/2;
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid+1, right);
 
-        merge(arr, l, m, r);
+        merge(arr, left, mid, right);
     }
 }
 
 int main()  {
-    int arr[] = {3, 2, 111, 56, 24, 97, 20, 7, 61, 9};
-    int arr_size = sizeof(arr)/sizeof(*arr);
+
+    int arr_size;
+    std::cout << "Enter the size of the array: ";
+    std::cin >> arr_size;
+    int arr[arr_size];
+
+    std::cout << "Enter the elements of the array";
+    for(int i=0; i < arr_size; i++) {
+        std::cin >> arr[i];
+    }
 
     mergeSort(arr, 0, arr_size-1);
 
